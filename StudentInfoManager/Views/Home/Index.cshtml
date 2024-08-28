@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model IEnumerable<Student>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Dept</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Student student in Model)
+        {
+            <tr>
+                <th scope="row">@student.ID</th>
+                <td>@student.Name</td>
+                <td>@student.Dept</td>
+                <td>@student.StartDate</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Home" asp-route-ID="@student.ID">Edit</a> |
+                    <a asp-action="Delete" asp-controller="Home" asp-route-ID="@student.ID">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
