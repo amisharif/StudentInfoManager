@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStudents;
 using ServiceStudents.DTO;
@@ -8,7 +9,8 @@ using System.Security.Cryptography.X509Certificates;
 namespace StudentInfoManager.Controllers
 {
 
-    [Route("[controller]")]
+
+   // [AllowAnonymous]
     public class HomeController : Controller
     {
 
@@ -18,36 +20,33 @@ namespace StudentInfoManager.Controllers
             _studentsService = studentsSercice;
         }
 
-        [Route("/")]
-        [Route("[action]")]
+
+        [Authorize]
+       // [Authorize (Roles ="Admin")]
         public IActionResult Index()
         {
             List<Student> students = _studentsService.GetAllStudents();
             return View(students);
         }
 
-
+        [Authorize]
         [HttpGet]
-        [Route("[action]")]
         public IActionResult Create()
         {
             return View();
         }
 
-
+        [Authorize]
         [HttpPost]
-        [Route("[action]")]
         public IActionResult Create(StudentAddRequest studentAddRequest)
         {
             StudentResponse std = _studentsService.AddStudent(studentAddRequest);
-            return RedirectToAction("Index");
+            if(std !=null) return RedirectToAction("Index");
+            return View();
 
         }
 
-
-
-        [HttpGet]
-        [Route("[action]/{ID}")]
+        [Authorize]
         public IActionResult Edit(int ID)
         {
             StudentResponse studentResponse = _studentsService.GetStudentByID(ID);
@@ -56,25 +55,28 @@ namespace StudentInfoManager.Controllers
             return View(studentUpdateRequest);
         }
 
-
-        [HttpPost]
-        [Route("[action]/{ID}")]
-        public IActionResult Edit(StudentUpdateRequest studentUpdateRequest)
+        [Authorize]
+        public IActionResult Edit(int ID, StudentUpdateRequest studentUpdateRequest)
         {
+           // Student std = studentUpdateRequest.ToStudent();
 
-            StudentResponse student = _studentsService.UpdateStudent(studentUpdateRequest);
+            StudentResponse student = _studentsService.UpdateStudent(ID,studentUpdateRequest);
             return RedirectToAction("Index");
         }
 
-
-        [HttpGet]
-        [Route("[action]/{ID}")]
+        [Authorize]
         public IActionResult Delete(int ID)
         {
-           StudentResponse student = _studentsService.DeleteStudent(ID);
-           return RedirectToAction("Index");
+           bool response = _studentsService.DeleteStudent(ID);
+            if (response)
+            {
+                return RedirectToAction("Index");
+            }return View();
+           
         }
 
+
+       
 
 
 

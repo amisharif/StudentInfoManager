@@ -1,0 +1,79 @@
+﻿@model RegisterDTO
+
+@{
+    ViewBag.Title = "Register";
+}
+
+
+
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div class="form-group">
+        <label asp-for="PersonName">Name</label>
+        <input asp-for="PersonName" type="text" class="form-control" placeholder="Enter Name">
+        <span asp-validation-for="PersonName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email address</label>
+        <input asp-for="Email" class="form-control" placeholder="Enter email">
+        <span class="text-denger" asp-validation-for="Email"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone">Phone</label>
+        <input asp-for="Phone" class="form-control" placeholder="Enter Phone">
+        <span asp-validation-for="Phone"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control" placeholder="Enter Password">
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserType">User type: </label>
+        <div class=d-flex>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio1" asp-for="UserType" value="User" checked>User
+                <label class="form-check-label" for="radio1"></label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio2" asp-for="UserType" value="Admin">Admin
+                <label class="form-check-label" for="radio2"></label>
+            </div>
+        </div>
+       
+    </div>
+
+   
+   
+
+
+    <input type="submit" class="btn btn-primary">Submit</input>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="text-red ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml text-danger">@error</li>
+                }
+            </ul>
+        </div>
+    }
+   
+  
+</form>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
